@@ -7,11 +7,13 @@ from openshift_be.configs.ma import ma
 from openshift_be.configs.config import SQLALCHEMY_TRACK_MODIFICATIONS
 from decouple import config
 from openshift_be.routes.modelRoutes import name_ns, Name
+from flask_cors import CORS
 
 def create_app():
     app = Flask(__name__)
     db.init_app(app)
     ma.init_app(app)
+    CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
     blueprint = Blueprint('api', __name__, url_prefix='/api/v1/')
     api = Api(blueprint, title="Sample Flask_Restx App")
     app.register_blueprint(blueprint)
